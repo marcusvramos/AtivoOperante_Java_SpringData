@@ -1,4 +1,4 @@
-package org.example.ativooperante.repository;
+package org.example.ativooperante.db.repository;
 
 import org.example.ativooperante.db.entities.Denuncia;
 import org.springframework.data.jpa.repository.JpaRepository;

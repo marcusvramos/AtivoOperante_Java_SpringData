@@ -1,4 +1,4 @@
-package org.example.ativooperante.entities;
+package org.example.ativooperante.db.entities;
 
 import jakarta.persistence.*;
 import java.util.Date;
