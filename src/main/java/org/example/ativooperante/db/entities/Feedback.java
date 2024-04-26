@@ -8,7 +8,7 @@ public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "fee_id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "fee_texto", columnDefinition = "TEXT")
     private String texto;
@@ -18,11 +18,11 @@ public class Feedback {
     private Denuncia denuncia;
 
     // Getters and Setters
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

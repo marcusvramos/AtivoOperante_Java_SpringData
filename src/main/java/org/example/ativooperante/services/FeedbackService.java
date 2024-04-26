@@ -15,7 +15,7 @@ public class FeedbackService {
         return repository.save(feedback);
     }
 
-    public Feedback getById(Integer id) {
+    public Feedback getById(Long id) {
         return repository.findById(id).orElse(null);
     }
 }

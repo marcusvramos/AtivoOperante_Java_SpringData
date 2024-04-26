@@ -9,7 +9,7 @@ public class Denuncia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "den_id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "den_titulo", length = 40)
     private String titulo;
@@ -36,11 +36,11 @@ public class Denuncia {
     @JoinColumn(name = "usu_id")
     private Usuario usuario;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

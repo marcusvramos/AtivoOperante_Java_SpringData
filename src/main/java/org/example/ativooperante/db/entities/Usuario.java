@@ -8,7 +8,7 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "usu_id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "usu_cpf", unique = true)
     private Long cpf;
@@ -22,11 +22,11 @@ public class Usuario {
     @Column(name = "usu_nivel")
     private Integer nivel;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

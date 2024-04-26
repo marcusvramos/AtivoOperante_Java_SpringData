@@ -13,13 +13,13 @@ public class DenunciaController {
     @Autowired
     private DenunciaService service;
 
-    @GetMapping("/get-all")
+    @GetMapping("/all")
     public ResponseEntity<Object> getAllDenuncias() {
         return ResponseEntity.ok(service.getAll());
     }
 
-    @GetMapping("/get-id/{id}")
-    public ResponseEntity<Object> getDenunciaById(@PathVariable Integer id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getDenunciaById(@PathVariable Long id) {
         return ResponseEntity.ok(service.getById(id));
     }
 

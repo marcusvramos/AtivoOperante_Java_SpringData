@@ -16,7 +16,7 @@ public class DenunciaService {
         return repository.findAll();
     }
 
-    public Denuncia getById(Integer id) {
+    public Denuncia getById(Long id) {
         return repository.findById(id).orElse(null);
     }
 

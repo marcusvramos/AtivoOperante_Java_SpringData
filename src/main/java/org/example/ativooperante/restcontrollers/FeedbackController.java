@@ -22,8 +22,8 @@ public class FeedbackController {
             return ResponseEntity.ok("Feedback inserido com sucesso");
     }
 
-    @GetMapping("/get-id/{id}")
-    public ResponseEntity<Object> getFeedbackById(@PathVariable Integer id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getFeedbackById(@PathVariable Long id) {
         Feedback feedback = service.getById(id);
         if (feedback == null)
             return ResponseEntity.notFound().build();
