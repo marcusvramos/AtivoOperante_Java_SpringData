@@ -20,7 +20,7 @@ public class Denuncia {
     @Column(name = "den_urgencia")
     private Integer urgencia;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "org_id")
     private Orgao orgao;
 
@@ -28,11 +28,11 @@ public class Denuncia {
     @Temporal(TemporalType.TIMESTAMP)
     private Date data;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tip_id")
     private Tipo tipo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "usu_id")
     private Usuario usuario;
 

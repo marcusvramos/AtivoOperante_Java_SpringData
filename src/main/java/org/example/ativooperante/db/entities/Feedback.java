@@ -13,11 +13,10 @@ public class Feedback {
     @Column(name = "fee_texto", columnDefinition = "TEXT")
     private String texto;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "den_id")
     private Denuncia denuncia;
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
