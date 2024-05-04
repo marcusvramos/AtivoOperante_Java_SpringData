@@ -1,37 +1,48 @@
 package org.example.ativooperante.security;
 
-import java.io.IOException;
-
-import jakarta.servlet.Filter;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.GenericFilterBean;
 
-public class AccessFilter implements Filter {
+import java.io.IOException;
+import java.util.Collections;
+
+@Component
+public class AccessFilter extends GenericFilterBean {
+
+    private final JWTTokenProvider jwtTokenProvider;
+
+    public AccessFilter(JWTTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        String header = httpServletRequest.getHeader("Authorization");
 
-        String bearerHeader = req.getHeader("Authorization");
-        String token = null;
-
-        if (bearerHeader != null && bearerHeader.startsWith("Bearer ")) {
-            token = bearerHeader.substring(7);
+        if (header != null && header.startsWith("Bearer ")) {
+            String token = header.substring(7);
+            if (jwtTokenProvider.verifyToken(token)) {
+             Claims claims = jwtTokenProvider.getAllClaimsFromToken(token);
+                        String role = claims.get("role", String.class);
+                        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+                                claims.getSubject(), null, Collections.singletonList(new SimpleGrantedAuthority(role)));
+                        SecurityContextHolder.getContext().setAuthentication(auth);
+            }
         }
 
-        if (token != null && JWTTokenProvider.verifyToken(token)) {
-            chain.doFilter(request, response);
-        } else {
-            HttpServletResponse res = (HttpServletResponse) response;
-            res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            res.getOutputStream().write("Não autorizado".getBytes());
-        }
+        chain.doFilter(request, response);
     }
 }
-
-
-    

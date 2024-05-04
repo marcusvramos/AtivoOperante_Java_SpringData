@@ -24,6 +24,10 @@ public class FeedbackService {
         return repository.findById(id).orElse(null);
     }
 
+    public List<Feedback> getByDenunciaId(Long id) {
+        return repository.findByDenunciaId(id);
+    }
+
     public Feedback save(Feedback feedback) {
         return repository.save(feedback);
     }

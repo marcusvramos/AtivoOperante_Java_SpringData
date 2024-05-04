@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/usuario")
@@ -26,15 +27,15 @@ public class UsuarioController {
         return usuario != null ? ResponseEntity.ok(usuario) : ResponseEntity.notFound().build();
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) {
         Usuario savedUsuario = usuarioService.save(usuario);
         return ResponseEntity.ok(savedUsuario);
     }
 
-    @PutMapping
-    public ResponseEntity<Usuario> updateUsuario(@RequestBody Usuario usuario) {
-        Usuario updatedUsuario = usuarioService.update(usuario);
+    @PutMapping("/{id}")
+    public ResponseEntity<Usuario> updateUsuario(@PathVariable Long id, @RequestBody Map<String, Object> denuncia) {
+        Usuario updatedUsuario = usuarioService.update(id, denuncia);
         return updatedUsuario != null ? ResponseEntity.ok(updatedUsuario) : ResponseEntity.notFound().build();
     }
 

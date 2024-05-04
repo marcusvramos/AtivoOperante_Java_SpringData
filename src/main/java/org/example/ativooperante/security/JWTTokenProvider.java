@@ -10,19 +10,22 @@ import javax.crypto.SecretKey;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.stereotype.Component;
 
+@Component
 public class JWTTokenProvider {
-    private static final SecretKey CHAVE = Keys.hmacShaKeyFor(
+    public static final SecretKey CHAVE = Keys.hmacShaKeyFor(
             "diTMndj3XTClNqqBfqWNGquJ1NuHYgo7KinSHW".getBytes(StandardCharsets.UTF_8));
 
     static public String getToken(String usuario,String nivel)
     {
+        String role = nivel.equals("1") ? "ROLE_ADMIN" : "ROLE_CIDADAO";
         String jwtToken = Jwts.builder()
                 .setSubject("usuario")
                 .setIssuer("localhost:8080")
-                .claim("nivel", nivel)
+                .claim("role", role)
                 .setIssuedAt(new Date())
-                .setExpiration(Date.from(LocalDateTime.now().plusMinutes(1L)
+                .setExpiration(Date.from(LocalDateTime.now().plusMinutes(30)
                         .atZone(ZoneId.systemDefault()).toInstant()))
                 .signWith(CHAVE)
                 .compact();

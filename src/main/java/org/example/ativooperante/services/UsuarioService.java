@@ -2,10 +2,13 @@ package org.example.ativooperante.services;
 
 import org.example.ativooperante.db.entities.Usuario;
 import org.example.ativooperante.db.repository.UsuarioRepository;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UsuarioService {
@@ -33,10 +36,17 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
-    public Usuario update(Usuario usuario) {
-        if (usuario != null && usuario.getId() != null && usuarioRepository.existsById(usuario.getId())) {
-            return usuarioRepository.save(usuario);
-        }
-        return null;
+    public Usuario update(Long id, Map<String, Object> updateFields) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario not found"));
+
+        BeanWrapper beanWrapper = new BeanWrapperImpl(usuario);
+        updateFields.forEach((propertyName, propertyValue) -> {
+            if (beanWrapper.isWritableProperty(propertyName) && !propertyName.equals("id")) {
+                beanWrapper.setPropertyValue(propertyName, propertyValue);
+            }
+        });
+
+        return usuarioRepository.save(usuario);
     }
 }

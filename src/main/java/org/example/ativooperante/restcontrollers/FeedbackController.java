@@ -29,6 +29,11 @@ public class FeedbackController {
             return ResponseEntity.ok(feedback);
     }
 
+    @GetMapping("/denuncia/{id}")
+    public ResponseEntity<Object> getFeedbacksByDenunciaId(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getByDenunciaId(id));
+    }
+
     @PostMapping
     public ResponseEntity<Object> addFeedback(@RequestBody Feedback feedback) {
         Feedback savedFeedback = service.save(feedback);

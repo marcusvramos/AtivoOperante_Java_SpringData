@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -25,7 +26,13 @@ public class DenunciaController {
         return ResponseEntity.ok(service.getById(id));
     }
 
-    @PostMapping
+    @GetMapping("/user/{id}")
+    public ResponseEntity<Object> getDenunciasByUserId(@PathVariable Long id) {
+        List<Denuncia> denuncias = service.getByUserId(id);
+        return ResponseEntity.ok(denuncias);
+    }
+
+    @PostMapping("/create")
     public ResponseEntity<Object> addDenuncia(@RequestBody Denuncia denuncia) {
         Denuncia saved = service.save(denuncia);
         if (saved == null)

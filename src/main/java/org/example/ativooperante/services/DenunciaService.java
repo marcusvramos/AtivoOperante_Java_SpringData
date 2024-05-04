@@ -23,6 +23,10 @@ public class DenunciaService {
         return repository.findById(id).orElse(null);
     }
 
+    public List<Denuncia> getByUserId(Long id) {
+        return repository.findByUserId(id);
+    }
+
     public Denuncia save(Denuncia denuncia) {
         return repository.save(denuncia);
     }
