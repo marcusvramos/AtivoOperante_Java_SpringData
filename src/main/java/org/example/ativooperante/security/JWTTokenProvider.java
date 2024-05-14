@@ -25,7 +25,7 @@ public class JWTTokenProvider {
                 .setIssuer("localhost:8080")
                 .claim("role", role)
                 .setIssuedAt(new Date())
-                .setExpiration(Date.from(LocalDateTime.now().plusMinutes(30)
+                .setExpiration(Date.from(LocalDateTime.now().plusDays(30)
                         .atZone(ZoneId.systemDefault()).toInstant()))
                 .signWith(CHAVE)
                 .compact();
