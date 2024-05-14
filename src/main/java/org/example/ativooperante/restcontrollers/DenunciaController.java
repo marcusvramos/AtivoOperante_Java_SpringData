@@ -11,6 +11,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/denuncia")
+@CrossOrigin("*")
 public class DenunciaController {
 
     @Autowired
