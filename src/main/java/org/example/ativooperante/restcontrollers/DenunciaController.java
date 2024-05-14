@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
@@ -38,8 +39,10 @@ public class DenunciaController {
         Denuncia saved = service.save(denuncia);
         if (saved == null)
             return ResponseEntity.badRequest().body("Erro ao inserir denúncia");
-        else
-            return ResponseEntity.ok("Denúncia inserida com sucesso");
+        else {
+            URI location = URI.create("/api/denuncia/" + saved.getId());
+            return ResponseEntity.created(location).body(saved);
+        }
     }
 
     @PutMapping("/{id}")

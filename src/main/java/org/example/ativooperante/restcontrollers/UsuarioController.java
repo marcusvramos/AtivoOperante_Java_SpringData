@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,8 @@ public class UsuarioController {
     @PostMapping("/create")
     public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) {
         Usuario savedUsuario = usuarioService.save(usuario);
-        return ResponseEntity.ok(savedUsuario);
+        URI location = URI.create("/api/usuario/" + savedUsuario.getId());
+        return ResponseEntity.created(location).body(savedUsuario);
     }
 
     @PutMapping("/{id}")

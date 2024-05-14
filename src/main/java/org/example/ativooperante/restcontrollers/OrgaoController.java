@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -31,7 +32,8 @@ public class OrgaoController {
     @PostMapping
     public ResponseEntity<Orgao> createOrgao(@Valid @RequestBody Orgao orgao) {
         Orgao savedOrgao = orgaoService.save(orgao);
-        return ResponseEntity.ok(savedOrgao);
+        URI location = URI.create("/api/orgao/" + savedOrgao.getId());
+        return ResponseEntity.created(location).body(savedOrgao);
     }
 
     @PutMapping

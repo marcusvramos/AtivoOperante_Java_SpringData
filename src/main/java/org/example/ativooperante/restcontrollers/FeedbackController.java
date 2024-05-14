@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.Map;
 
 @RestController
@@ -40,8 +41,10 @@ public class FeedbackController {
         Feedback savedFeedback = service.save(feedback);
         if (savedFeedback == null)
             return ResponseEntity.badRequest().body("Erro ao inserir feedback");
-        else
-            return ResponseEntity.ok("Feedback inserido com sucesso");
+        else {
+            URI location = URI.create("/api/feedback/" + savedFeedback.getId());
+            return ResponseEntity.created(location).body(savedFeedback);
+        }
     }
 
     @PutMapping("/{id}")

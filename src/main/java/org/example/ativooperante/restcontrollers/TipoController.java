@@ -5,7 +5,9 @@ import org.example.ativooperante.services.TipoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -30,7 +32,9 @@ public class TipoController {
     @PostMapping
     public ResponseEntity<Tipo> createTipo(@RequestBody Tipo tipo) {
         Tipo savedTipo = tipoService.save(tipo);
-        return ResponseEntity.ok(savedTipo);
+        URI location = URI.create("/api/tipo/" + savedTipo.getId());
+
+        return ResponseEntity.created(location).body(savedTipo);
     }
 
     @PutMapping
