@@ -30,9 +30,13 @@ public class DenunciaController {
         return ResponseEntity.ok(service.getById(id));
     }
 
-    @GetMapping("/user/{id}")
-    public ResponseEntity<Object> getDenunciasByUserId(@PathVariable Long id) {
-        List<Denuncia> denuncias = service.getByUserId(id);
+    @GetMapping("/user")
+    public ResponseEntity<Object> getDenunciasByUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userIdStr = authentication.getName();
+        Long userId = Long.parseLong(userIdStr);
+
+        List<Denuncia> denuncias = service.getByUserId(userId);
         return ResponseEntity.ok(denuncias);
     }
 
