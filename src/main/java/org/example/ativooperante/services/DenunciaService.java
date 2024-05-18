@@ -1,7 +1,9 @@
 package org.example.ativooperante.services;
 
 import org.example.ativooperante.db.entities.Denuncia;
+import org.example.ativooperante.db.entities.Usuario;
 import org.example.ativooperante.db.repository.DenunciaRepository;
+import org.example.ativooperante.db.repository.UsuarioRepository;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ public class DenunciaService {
     @Autowired
     private DenunciaRepository repository;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
     public List<Denuncia> getAllDenuncias() {
         return repository.findAll();
     }
@@ -27,7 +32,9 @@ public class DenunciaService {
         return repository.findByUserId(id);
     }
 
-    public Denuncia save(Denuncia denuncia) {
+    public Denuncia save(Denuncia denuncia, Long userId) {
+        Usuario usuario = usuarioRepository.findById(userId).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        denuncia.setUsuario(usuario);
         return repository.save(denuncia);
     }
 

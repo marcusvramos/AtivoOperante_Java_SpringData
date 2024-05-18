@@ -35,11 +35,15 @@ public class AccessFilter extends GenericFilterBean {
         if (header != null && header.startsWith("Bearer ")) {
             String token = header.substring(7);
             if (jwtTokenProvider.verifyToken(token)) {
-             Claims claims = jwtTokenProvider.getAllClaimsFromToken(token);
-                        String role = claims.get("role", String.class);
-                        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-                                claims.getSubject(), null, Collections.singletonList(new SimpleGrantedAuthority(role)));
-                        SecurityContextHolder.getContext().setAuthentication(auth);
+                Claims claims = jwtTokenProvider.getAllClaimsFromToken(token);
+                String userId = claims.get("userId", String.class);
+                String role = claims.get("role", String.class);
+
+                if (userId != null) {
+                    UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+                            userId, null, Collections.singletonList(new SimpleGrantedAuthority(role)));
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                }
             }
         }
 

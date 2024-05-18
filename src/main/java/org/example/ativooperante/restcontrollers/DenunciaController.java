@@ -4,6 +4,8 @@ import org.example.ativooperante.db.entities.Denuncia;
 import org.example.ativooperante.services.DenunciaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -36,12 +38,20 @@ public class DenunciaController {
 
     @PostMapping("/create")
     public ResponseEntity<Object> addDenuncia(@RequestBody Denuncia denuncia) {
-        Denuncia saved = service.save(denuncia);
-        if (saved == null)
-            return ResponseEntity.badRequest().body("Erro ao inserir denúncia");
-        else {
-            URI location = URI.create("/api/denuncia/" + saved.getId());
-            return ResponseEntity.created(location).body(saved);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userIdStr = authentication.getName();
+
+        try {
+            Long userId = Long.parseLong(userIdStr);
+            Denuncia saved = service.save(denuncia, userId);
+            if (saved == null) {
+                return ResponseEntity.badRequest().body("Erro ao inserir denúncia");
+            } else {
+                URI location = URI.create("/api/denuncia/" + saved.getId());
+                return ResponseEntity.created(location).body(saved);
+            }
+        } catch (NumberFormatException e) {
+            return ResponseEntity.status(500).body("Erro do servidor");
         }
     }
 

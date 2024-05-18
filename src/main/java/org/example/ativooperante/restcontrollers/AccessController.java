@@ -22,7 +22,7 @@ public class AccessController {
     ResponseEntity<Object> logar(@RequestBody Usuario loginRequest) {
         Usuario usuario = usuarioService.findByEmail(loginRequest.getEmail());
         if (usuario != null && Objects.equals(usuario.getSenha(), loginRequest.getSenha())) {
-            String token = JWTTokenProvider.getToken(usuario.getEmail(), "" + usuario.getNivel());
+            String token = JWTTokenProvider.getToken(usuario.getEmail(), "" + usuario.getNivel(), usuario.getId());
             return ResponseEntity.ok(token);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas");

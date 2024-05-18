@@ -17,13 +17,14 @@ public class JWTTokenProvider {
     public static final SecretKey CHAVE = Keys.hmacShaKeyFor(
             "diTMndj3XTClNqqBfqWNGquJ1NuHYgo7KinSHW".getBytes(StandardCharsets.UTF_8));
 
-    static public String getToken(String usuario,String nivel)
+    static public String getToken(String usuario,String nivel, Long userId)
     {
         String role = nivel.equals("1") ? "ROLE_ADMIN" : "ROLE_CIDADAO";
         String jwtToken = Jwts.builder()
                 .setSubject("usuario")
                 .setIssuer("localhost:8080")
                 .claim("role", role)
+                .claim("userId", userId.toString())
                 .setIssuedAt(new Date())
                 .setExpiration(Date.from(LocalDateTime.now().plusDays(30)
                         .atZone(ZoneId.systemDefault()).toInstant()))
